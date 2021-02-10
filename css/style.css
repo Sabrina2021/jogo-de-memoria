@@ -1,0 +1,103 @@
+section.jogo, section.vitoria{
+    display: none;
+}
+
+/* TELA INICIO */
+section.inicio{
+    width: 100vw;
+    height: 100vh;
+    background: url(../imagens/img1.png) no-repeat center bottom;
+    background-size:cover;
+
+}
+
+section.inicio button{
+    margin: 55vh 24vw;
+    border: none;
+    background-color: orange;
+    width: 25vh;
+    height: 10vw;
+    color: white;
+    font-size: 5vw;
+}
+
+/* TELA JOGO */
+section.jogo p{
+    font-size: 0.8em;
+    
+    
+}
+section.jogo{
+    background-color: rgb(209, 197, 197);
+    text-align: center;
+}
+
+section.jogo div.emojis{
+    text-align: center;
+    padding: 5vh 5vw;
+}
+
+section.jogo div.emojis div.imagens{
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    margin: 10px 35px;
+    background: url(../imagens/Baralho.png);
+    background-size: 150px, 150px;
+}
+
+section.jogo div.imagens img.emoji{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+header{
+    background: #e19c08;
+    font-size: 1.5em;
+    padding: 10px;
+    display: flex;
+    text-align: center;
+    height: 8vh;
+}
+
+header p{
+    font-size: 1em;
+    padding: 3px 50vw 0px 2px;
+    position: relative;
+    top: 2px;
+}
+
+/* TELA VITORIA */
+section.vitoria{
+    width: 100vw;
+    height: 100vh;
+    background: url(../imagens/FundoVitoria.jpeg) no-repeat center bottom;
+    background-size:cover;
+}
+
+section.vitoria{
+    position: relative;
+}
+
+section.vitoria h2{
+    font-size: 35px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+    
+section.vitoria button{
+    font-size: 30px;
+    position: absolute;
+    top: 63%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    background-color: orange;
+    width: 25vh;
+    height: 10vw;
+    color: white;
+    font-size: 5vw;
+}

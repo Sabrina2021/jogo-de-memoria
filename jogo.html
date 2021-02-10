@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="site.webmanifest">
+    <title>JOGO DA MEMÓRIA</title>
+</head>
+    <body>
+
+<!-- INICIO -->
+        <section class="inicio">
+            <button>JOGAR</button>
+        </section>
+
+<!-- JOGO -->
+        <section class="jogo">
+            <header>
+                <p>Jogo da memória: 
+               Selecione os pares iguais</p>
+                
+                <span class="temporizadorMin">00</span><h3>:</h3><span class="temporizadorSeg">00</span>
+            </header>
+
+            <div class="emojis">
+                <div id="1" class="imagens"></div>
+                <div id="2" class="imagens"></div>
+                <div id="3" class="imagens"></div>
+                <div id="4" class="imagens"></div>
+                <div id="5" class="imagens"></div>
+                <div id="6" class="imagens"></div>
+                <div id="7" class="imagens"></div>
+                <div id="8" class="imagens"></div>
+                <div id="9" class="imagens"></div>
+                <div id="10" class="imagens"></div>
+                <div id="11" class="imagens"></div>
+                <div id="12" class="imagens"></div>
+                <div id="13" class="imagens"></div>
+                <div id="14" class="imagens"></div>
+                <div id="15" class="imagens"></div>
+                <div id="16" class="imagens"></div>
+                <div id="17" class="imagens"></div>
+                <div id="18" class="imagens"></div>
+                <div id="19" class="imagens"></div>
+                <div id="20" class="imagens"></div>
+            </div>
+        </section>
+
+<!-- VITORIA -->
+        <section class="vitoria">
+
+            <h2>Tempo: <span class="tempo"></span></h2>
+            <button>VOLTAR</button>
+        </section>
+    </body>
+
+    <footer></footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+            var musica = new Audio('musicas/Good Starts.mp3');
+            var audio = new Audio('');
+
+            musica.loop = true;
+
+            $("section.inicio button").on("click", function(){ 
+                $("section.inicio").hide();
+                $("section.jogo").show();
+
+                musica = new Audio('musicas/Good Starts.mp3');
+                musica.play();
+
+                var soma = 0;
+                var min = 0;
+                cronometro = setInterval(function(){
+            
+                    var tempo = parseInt($("section.jogo span.temporizadorSeg").text());
+                    soma = tempo + 1;
+
+                    if(soma < 10) {
+                        soma = "0" + soma;
+                    }
+
+                    if(soma > 59){
+                        min++;
+                        if(min < 10) {
+                            min = "0" + min;
+                        }
+                        soma = 00;
+                        $("section.jogo span.temporizadorMin").text(min);
+                    }
+                    $("section.jogo span.temporizadorSeg").text(soma);
+                }, 1000);
+                
+            });
+        var sorteados = [];
+        var valorMaximo = 10;
+
+        function criarUnico() {
+            if (sorteados.length == valorMaximo) {
+                sorteados = [];
+            }
+
+            var sugestao = Math.ceil(Math.random() * valorMaximo);
+
+            while (sorteados.indexOf(sugestao) >= 0) { 
+                sugestao = Math.ceil(Math.random() * valorMaximo);
+            }
+
+            sorteados.push(sugestao);
+            return sugestao; 
+        }
+
+        for (var i = 1; i < 21; i++) {
+            var numero = criarUnico();
+            console.log(numero);
+
+            var html = "<img class='emoji' id='emoji" + i + "' src='imagens/Emoji" + numero + ".png' title='" + numero + "'>";
+
+            $("section.jogo div#"+i).append(html);
+        }   
+
+        var reveladas = 0;
+        var nomeEmoji1 = 0;
+        var nomeEmoji2 = 0;
+        var idEmoji1 = 0;
+        var idEmoji2 = 0;
+        var pontos = 0;
+
+        $("div.imagens img.emoji").on("click", function(){
+            if($(this).css("opacity") == 0){
+
+                audio = new Audio('musicas/Toque.mp3');
+                audio.play();
+
+                if(reveladas == 0 || reveladas == 1){//se foi clicado em menos de 2 cartas
+                    if(nomeEmoji1 == 0){//se está clicando na primeira carta
+                        nomeEmoji1 = this.title;
+                        idEmoji1 = $(this).attr('id');
+                        
+                        console.log(idEmoji1 + ": O nome do primeiro emoji é "+nomeEmoji1+" e do segundo emoji é "+nomeEmoji2);
+                        reveladas++;
+                        $(this).css("opacity", "1");
+
+                    }else{//se está clicando na segunda carta
+                        nomeEmoji2 = this.title;
+                        idEmoji2 = $(this).attr('id');
+                        console.log(idEmoji2 + " O nome do primeiro emoji é "+nomeEmoji1+" e do segundo emoji é "+nomeEmoji2);
+
+                        reveladas++;
+                        $(this).css("opacity", "1");
+                    }
+
+                    // Verificando se são iguais
+                    if(nomeEmoji1 == nomeEmoji2){
+                        console.log("São iguais!!");
+                        pontos++;
+                        idEmoji1 = 0;
+                        idEmoji2 = 0;
+                        nomeEmoji1 = 0;
+                        nomeEmoji2 = 0;
+                        reveladas = 0;
+
+                        if(pontos == 10){
+                            $("section").hide();
+                            $("section.vitoria").show();
+
+                            musica.pause();
+                            audio = new Audio('musicas/Win.wav');
+                            audio.play();
+
+                            var minFinal = $("section.jogo span.temporizadorMin").text();
+                            var segFinal = $("section.jogo span.temporizadorSeg").text();
+                            <p>$("section.vitoria span.tempo").text(minFinal+":"+segFinal); </p>
+                        }
+
+                    }else{
+                        if(nomeEmoji1 != 0 && nomeEmoji2 != 0){ //se já foram escolhidas duas cartas
+                            setTimeout(() => {
+                                console.log("Cartas escondidas!");
+
+                                $("section.jogo img#"+idEmoji1).css("opacity", "0"); 
+                                $("section.jogo img#"+idEmoji2).css("opacity", "0"); 
+
+                                idEmoji1 = 0;
+                                idEmoji2 = 0;
+                                nomeEmoji1 = 0;
+                                nomeEmoji2 = 0;
+                                reveladas = 0;
+                            }, 2000);
+                        }
+                    }
+                }
+            }
+        });
+
+        $("section.vitoria button").on("click",function(){
+                window.location.reload();
+        });
+
+    </script>
+</html>
